@@ -1,7 +1,8 @@
 "use client";
 import { useGameContext, GameContext } from '../../utils/playerContext.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import questions from '../../utils/questions.tsx';
+import React from "react";
 import Link from "next/link"
 
 function randomFrom(array: any[]) {
@@ -13,6 +14,7 @@ export default function Page() {
 	const currentPlayerID = gameContext.game.currentPlayerID;
 
 	const [currentQuestion, setCurrentQuestion] = useState<any>(null);
+	const questionsRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		setCurrentQuestion(randomFrom(questions));
@@ -34,13 +36,33 @@ export default function Page() {
 			failSound.play();
 		}
 
-		setGameContext({ ...gameContext, game: { currentPlayerID: nextPlayerID }, players: gameContext.players.map((player, index) => {
-			if (index === currentPlayerID && correct) {
-				player.score += 1;
+		questionsRef.current?.childNodes.forEach((child: any, index: number) => {
+			child.classList.remove("hover:border-4");
+			if (index === currentQuestion.correct) {
+				child.classList.remove("bg-slate-200");
+				child.classList.add("text-white");
+				child.classList.add("bg-red-500");
+			} else {
+				child.classList.add("opacity-20");
 			}
-			return player;
-		}) 
 		});
+		window.setTimeout(() => {
+			questionsRef.current?.childNodes.forEach((child: any, index: number) => {
+				child.classList.add("hover:border-4");
+				child.classList.add("bg-slate-200");
+				child.classList.remove("text-white");
+				child.classList.remove("bg-red-500");
+				child.classList.remove("opacity-20");
+			});
+			setGameContext({ ...gameContext, game: { currentPlayerID: nextPlayerID }, players: gameContext.players.map((player, index) => {
+				if (index === currentPlayerID && correct) {
+					player.score += 1;
+				}
+				return player;
+			}) 
+			});
+
+		}, 1500);
 	}
 	if (gameContext.players && currentQuestion) {
 	return (
@@ -64,11 +86,11 @@ export default function Page() {
 			</div>
 			<div className="flex basis-full flex-col rounded-md border-2 border-red-500 m-2">
 					<h2 className="font-medium text-4xl m-4 text-center">Question: {currentQuestion.question}</h2>
-					<div className="grid grid-flow-row sm:grid-cols-2 h-fit">
+					<div className="grid grid-flow-row sm:grid-cols-2 h-fit" ref={questionsRef}>
 						{ 
 							currentQuestion.answers.map((answer: any, index: number) => {
 								return (
-									<button key={index} className="rounded-lg bg-slate-200 font-bold hover:text-white hover:bg-red-600 m-4 p-4 text-xl sm:text-4xl sm:h-52" onClick={() => { answerSelected(index) }}>{answer}</button>
+									<button key={index} className="rounded-lg bg-slate-200 font-bold hover:border-4 hover:border-red-500 m-4 p-4 text-xl sm:text-4xl sm:h-52" onClick={() => { answerSelected(index) }}>{answer}</button>
 								);
 							})
 
