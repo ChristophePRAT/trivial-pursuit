@@ -1,18 +1,16 @@
 "use client";
-import { useGameContext, PlayerContext } from '../../utils/playerContext.ts';
+import { useGameContext, GameContext, Player } from '../../utils/playerContext.tsx';
 import { useContext } from 'react';
 import { useState } from 'react';
 import Link from "next/link";
-import useLocalStorage from "../../utils/useLocalStorage.ts";
 
 export default function Page() {
-	const [gameContext, setGameContext] = useLocalStorage<any>("game")
+	const { gameContext, setGameContext }: GameContext = useGameContext();
 
 	const [newPlayerName, setNewPlayerName] = useState("");
+
 	const addPlayer = () => {
-		const newPlayers = gameContext.players;
-		newPlayers.push({ name: newPlayerName, id: newPlayers.length, score: 0 });
-		setGameContext({ ...gameContext, players: newPlayers });
+		setGameContext({ ...gameContext, players: [...gameContext.players, { name: newPlayerName, score: 0 }] });
 		setNewPlayerName("");
 	}
 
@@ -20,7 +18,7 @@ export default function Page() {
 		<div className="flex flex-col">
 			<h1>Choix des joueurs</h1>
 			{
-				gameContext.players.map((player, index) => {
+				gameContext.players.map((player: any, index: number) => {
 					return (
 						<div key={index} className="flex flex-row">
 								<label htmlFor="name">Nom du joueur {index + 1}</label>

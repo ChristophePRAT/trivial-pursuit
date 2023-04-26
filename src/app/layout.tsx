@@ -1,22 +1,22 @@
-'use client';
-
+import Provider from './provider.tsx'
 import './globals.css'
-import { Inter } from 'next/font/google'
-import { useState } from 'react'
-import { PlayerContext } from '../utils/playerContext.ts'
 
-const inter = Inter({ subsets: ['latin'] })
+export const metadata = {
+  title: 'Trivial Pursuit',
+  colorScheme: 'light',
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
+      <body className="bg-white">
+        <Provider>
+          {children}
+        </Provider>
       </body>
     </html>
   )
