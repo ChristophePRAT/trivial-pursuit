@@ -8,11 +8,9 @@ function randomFrom(array: any[]) {
 	return array[Math.floor(Math.random() * array.length)];
 }
 
-
 export default function Page() {
 	const { gameContext, setGameContext }: GameContext = useGameContext();
 	const currentPlayerID = gameContext.game.currentPlayerID;
-
 
 	const [currentQuestion, setCurrentQuestion] = useState<any>(null);
 
@@ -60,7 +58,9 @@ export default function Page() {
 					})
 					}
 				</div>
-				<Link href="/players" className="m-2 text-sky-700">Recommencer</Link>
+				<Link href="/players" onClick={() => {
+					setGameContext({ ...gameContext, game: { currentPlayerID: 0 }, players: [] })
+					}} className="m-2 text-sky-700">Recommencer</Link>
 			</div>
 			<div className="flex basis-full flex-col rounded-md border-2 border-red-500 m-2">
 					<h2 className="font-medium text-4xl m-4 text-center">Question: {currentQuestion.question}</h2>

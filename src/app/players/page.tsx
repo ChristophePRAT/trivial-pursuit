@@ -1,7 +1,7 @@
 "use client";
 import { useGameContext, GameContext, Player } from '../../utils/playerContext.tsx';
 import { useContext } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 
 export default function Page() {
@@ -10,7 +10,10 @@ export default function Page() {
 	const [newPlayerName, setNewPlayerName] = useState("");
 
 	const addPlayer = () => {
-		setGameContext({ ...gameContext, players: [...gameContext.players, { name: newPlayerName, score: 0 }] });
+		const newPlayers = gameContext.players;
+		newPlayers.push({ name: newPlayerName, id: newPlayers.length, score: 0 });
+		setGameContext({ ...gameContext, players: newPlayers });
+			
 		setNewPlayerName("");
 	}
 
