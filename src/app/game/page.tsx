@@ -9,23 +9,67 @@ function randomFrom(array: any[]) {
 	return array[Math.floor(Math.random() * array.length)];
 }
 
+function oneOutOf(number: number) {
+	return Math.random() < 1/number;
+}
+
 export default function Page() {
 	const { gameContext, setGameContext }: GameContext = useGameContext();
-	const currentPlayerID = gameContext.game.currentPlayerID;
 
 	const [currentQuestion, setCurrentQuestion] = useState<any>(null);
 	const questionsRef = useRef<HTMLDivElement>(null);
+	const [popup, setPopup] = useState<any>({});
 
 	useEffect(() => {
+		if (gameContext.players.length === 0) {
+			return;
+		}
+
 		setCurrentQuestion(randomFrom(questions));
 	}, [gameContext.players]);
 
-	const answerSelected = (index: number) => {
-		console.log(index);
-		console.log(currentQuestion.correct);
+	// Popup actions
+	useEffect(() => {
+		const playerName = gameContext.players[gameContext.game.currentPlayerIndex].name;
+		if (oneOutOf(30)) {
+			setPopup({
+				title: "On vous apporte la démocratie 🇺🇸",
+				description: `Les États-Unis aident ${playerName} à devenir une démocratie, en échange d'une contrepartie pécunière. Vous perdez la moitié des points.`,
+				id: 1,
+			})
+		} else if (oneOutOf(30)) {
+			setPopup({
+				title: "On vous libère du capital ☭",
+				description: "L'URSS décide de vous inciter fortement à rejoindre l'URSS en vous libérant du capital. Vous partagez vos points avec le joueur ayant le moins de points.",
+				id: 2,
+			})
+		} else if (oneOutOf(30)) {
+			setPopup({
+				title: "Territoire contesté ⚡️",
+				description: "Les États-Unis et l'URSS se disputent votre territoire. Vous perdez 2 points.",
+				id: 3,
+			})
+		} else if (oneOutOf(30)) {
+			setPopup({
+				title: "Vous trouvez des matières premières !",
+				description: `Des matières premières exportables sont découvertes au sein de ${playerName}. Vous gagnez 3 points.`,
+				id: 4,
+			})
+		}
+	}, [gameContext.game.currentPlayerIndex]);
 
-		const nextPlayerID = (currentPlayerID + 1) % gameContext.players.length;
+	// This is to reset
+	//useEffect(() => {
+		//if (gameContext.game.currentPlayerID && gameContext.game.currentPlayerIndex === undefined) {
+			//setGameContext({ ...gameContext, game: { currentPlayerIndex: 0 } });
+		//}
+	//}, [gameContext.game.currentPlayerID]);
+
+
+	const answerSelected = (index: number) => {
 		const correct = currentQuestion.correct === index;
+		const currentPlayerIndex = gameContext.game.currentPlayerIndex;
+
 		if (correct) {
 			const successSound = new Audio("/success-sound-effect.mp3");
 			// Set audio speed to 2x
@@ -54,15 +98,16 @@ export default function Page() {
 				child.classList.remove("bg-red-500");
 				child.classList.remove("opacity-20");
 			});
-			setGameContext({ ...gameContext, game: { currentPlayerID: nextPlayerID }, players: gameContext.players.map((player, index) => {
-				if (index === currentPlayerID && correct) {
+
+			const nextPlayerIndex = (currentPlayerIndex + 1) % gameContext.players.length;
+			setGameContext({ ...gameContext, game: { currentPlayerIndex: nextPlayerIndex }, players: gameContext.players.map((player, index) => {
+				if (index === currentPlayerIndex && correct) {
 					player.score += 1;
 				}
 				return player;
 			}) 
 			});
-
-		}, 1500);
+		}, 1000);
 	}
 	if (gameContext.players && currentQuestion) {
 	return (
@@ -71,7 +116,7 @@ export default function Page() {
 				<div className="flex flex-row">
 					{gameContext.players.map((player, index) => {
 						return (
-							<div key={index} className={`rounded-full border-red-500 border-2 p-2 m-2 inline-block w-fit text-black ${player.id === currentPlayerID && "bg-red-500 text-white"}`}>
+							<div key={index} className={`rounded-full border-red-500 border-2 p-2 m-2 inline-block w-fit text-black ${player.id === gameContext.players[gameContext.game.currentPlayerIndex].id && "bg-red-500 text-white"}`}>
 								<h3>
 									{player.name}: {player.score} points
 								</h3>
@@ -81,7 +126,7 @@ export default function Page() {
 					}
 				</div>
 				<Link href="/players" onClick={() => {
-					setGameContext({ ...gameContext, game: { currentPlayerID: 0 }, players: [] })
+					setGameContext({ ...gameContext, game: { currentPlayerIndex: 0 }, players: [] })
 					}} className="m-2 text-sky-700">Recommencer</Link>
 			</div>
 			<div className="flex basis-full flex-col rounded-md border-2 border-red-500 m-2">
@@ -90,13 +135,74 @@ export default function Page() {
 						{ 
 							currentQuestion.answers.map((answer: any, index: number) => {
 								return (
-									<button key={index} className="rounded-lg bg-slate-200 font-bold hover:border-4 hover:border-red-500 m-4 p-4 text-xl sm:text-4xl sm:h-52" onClick={() => { answerSelected(index) }}>{answer}</button>
+									<button key={index} className="rounded-lg bg-slate-200 font-bold hover:border-4 hover:border-red-500 m-4 p-4 text-xl sm:text-4xl sm:h-52 transition-all" onClick={() => { answerSelected(index) }}>{answer}</button>
 								);
 							})
 
 						}
 					</div>
 			</div>
+			{ popup.title &&
+				<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+					<div className="bg-white rounded-md p-4 flex justify-center items-center flex-col w-2/3">
+						<h2 className="font-medium text-4xl m-4 text-center">{popup.title}</h2>
+						<p className="m-3 text-center">{popup.description}</p>
+						<button className="m-3 border-2 border-slate-200 rounded-xl p-4 w-32 font-medium hover:text-slate-500 transition-all" onClick={() => { 
+							const currentPlayerIndex = gameContext.game.currentPlayerIndex;
+							switch (popup.id) {
+								case 1:
+									setGameContext({ ...gameContext, players: gameContext.players.map((player, index) => {
+									if (player.id === gameContext.players[currentPlayerIndex].id) {
+										player.score = Math.floor(player.score / 2);
+									}
+									return player;
+								})
+								});
+									break;
+								case 2:
+									const playerWithLeastPoints = gameContext.players.reduce((acc, player) => {
+										if (player.score < acc.score) {
+											return player;
+										} else {
+											return acc;
+										}
+									}, gameContext.players[0]);
+									const meanScore = (playerWithLeastPoints.score + gameContext.players[currentPlayerIndex].score) / 2
+
+									setGameContext({ ...gameContext, players: gameContext.players.map((player, index) => {
+										if (player.id === playerWithLeastPoints.id || player.id === gameContext.players[currentPlayerIndex].id) {
+											player.score = meanScore;
+										}
+									})
+									})
+									case 3:
+										setGameContext({ ...gameContext, players: gameContext.players.map((player, index) => {
+										if (player.id === gameContext.players[currentPlayerIndex].id) {
+											if (player.score >= 3) {
+												player.score -= 3;
+											} else {
+												player.score = 0;
+											}
+										}
+										return player
+									})
+									})
+									case 4:
+										setGameContext({ ...gameContext, players: gameContext.players.map((player, index) => {
+										if (player.id === gameContext.players[currentPlayerIndex].id) {
+											player.score += 3;
+										}
+										return player
+									})
+									})
+								default:
+									break;
+							}
+							setPopup({})
+						}}>OK</button>
+					</div>
+				</div>
+			}
 		</div>
 	)
 	} else {

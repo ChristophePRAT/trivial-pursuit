@@ -9,7 +9,7 @@ export default function Provider({
 }: {
   children: React.ReactNode
 }) {
-	const [gameContext, setGameContext] = useLocalStorage<any>("game", { game: { currentPlayerID: 0 }, players: [] });
+	const [gameContext, setGameContext] = useLocalStorage<any>("game", { game: { currentPlayerIndex: 0 }, players: [] });
 	return (
 		<PlayerContext.Provider value={{ gameContext, setGameContext }}>
 			{children}

@@ -4,7 +4,7 @@ import { createContext, useContext } from "react"
 interface GameContext {
 	gameContext: {
 		game: {
-			currentPlayerID: number;
+			currentPlayerIndex: number;
 			// other properties of the game object
 		};
 		players: Player[];
@@ -14,7 +14,7 @@ interface GameContext {
 }
 
 interface Player {
-	id: number;
+	id: string;
 	name: string;
 	score: number;
 }

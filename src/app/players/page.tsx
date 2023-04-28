@@ -16,7 +16,9 @@ export default function Page() {
 
 	const addPlayer = () => {
 		const newPlayers = gameContext.players;
-		newPlayers.push({ name: newPlayerName, id: newPlayers.length, score: 0 });
+		// generate new random UUID
+		const id = crypto.randomUUID();
+		newPlayers.push({ name: newPlayerName, id, score: 0 });
 		setGameContext({ ...gameContext, players: newPlayers });
 
 		setNewPlayerName("");
