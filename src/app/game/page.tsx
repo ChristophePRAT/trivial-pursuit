@@ -30,6 +30,9 @@ export default function Page() {
 
 	// Popup actions
 	useEffect(() => {
+		if (!gameContext.players[gameContext.game.currentPlayerIndex]) {
+			return;
+		}
 		const playerName = gameContext.players[gameContext.game.currentPlayerIndex].name;
 		if (oneOutOf(30)) {
 			setPopup({
@@ -145,6 +148,7 @@ export default function Page() {
 			{ popup.title &&
 				<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
 					<div className="bg-white rounded-md p-4 flex justify-center items-center flex-col w-2/3">
+						<h3 className="font-medium text-xl m-4 text-center">{gameContext.players[gameContext.game.currentPlayerIndex].name}</h3>
 						<h2 className="font-medium text-4xl m-4 text-center">{popup.title}</h2>
 						<p className="m-3 text-center">{popup.description}</p>
 						<button className="m-3 border-2 border-slate-200 rounded-xl p-4 w-32 font-medium hover:text-slate-500 transition-all" onClick={() => { 
