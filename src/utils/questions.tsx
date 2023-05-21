@@ -280,13 +280,13 @@ const questions = [
 							{ question : "Quel pays possède la même devise que les mousquetaires : un pour tous, tous pour un ?", answers : [ "la Belgique", "la Suède" , "la Suisse"], correct : 2},
 							// Le pouvoir des médias / Fake News
 							{
-question : "Quel est le nom de la chaîne de télévision qui a été accusée d’avoir diffusé des informations erronées sur la guerre en Irak ? ",
+question : "Quel est le nom de la chaîne de télévision qui a été accusée d’avoir diffusé des informations erronées sur la guerre en Irak ?",
 answers: ["ABC news", "Fox News", " CNN" , "MSNBC"], correct: 1},
 { 
 question: "Quel est le nom du site web qui a publié des informations erronées sur les élections présidentielles américaines de 2020 ?",
 answers : ["the huffington post", "the new York times", "the Washington post", "Breitbart News"], correct : 1},
 {
-question : "Quelle est la chaine TV la plus regardé de France ?",
+question : "Quelle est la chaine TV la plus regardée de France ?",
 answers : ["France 2", "France 3", "TF1", "France 5 "], correct : 2},
 {
 question :"Quel est le nom de la chaîne de télévision qui a été accusée de partialité en faveur de Donald Trump pendant les élections présidentielles américaines de 2016 ?",
@@ -295,16 +295,16 @@ answers: ["CNN", "MSNBC", "ABC News", "Fox News"], correct: 3},
 question : "Quel est le nom du site web qui a publié des informations erronées sur les élections présidentielles américaines de 2016 ?",
 answers: ["The Washington Post", "Breitbart News", "The Huffington Post", "The New York Times"], correct: 1},
 {
-question: "combien de personnes en moyenne regarde le journal télévisé de TF1 à 20h chaque soir ?",
+question: "Combien de personnes (en moyenne) regardent le journal télévisé de TF1 à 20h chaque soir ?",
 answers : ["2,5 millions", "10 millions", "5 millions " , "20 millions "], correct : 2},
 {
-question : "quel est le média le plus influent en France ",
+question : "Quel est le média le plus influent en France ?",
 answers : ["Instagram", "La télévisions", "le journal", "Facebook "], correct : 1},
 { 
 question : "En quelle année le premier journal radio est-t-il diffusé ?",
 answers : ["1892", "1902", "1912", "1922", "1932 "], correct : 0},
 {
-question : "Quelle plateforme de médias sociaux a été critiquée pour son rôle dans la diffusion de fake news ? ",
+question : "Quel réseau social a été critiqué pour son rôle dans la diffusion de fake news ? ",
 answers : ["facebook", "twitter", "instagram", "Instagram, twitter, facebook"], correct: 3},
 {
 question : "Quel pays a été accusé d'utiliser des \"fake news\" pour interférer dans des élections étrangères ?",
@@ -313,7 +313,7 @@ answers : ["Italie", "France", "Russie", "État-unis"], correct : 2},
 question : "Quel pays a utilisé une intelligence artificielle pour influencer un vote de loi ? ",
 answers : ["Grande bretagne", "France", "Etats Unis", "Chine "], correct : 0},
 {
-question : "Quel présent Americain à propager le plus de Fake news ?",
+question : "Quel président Americain a propagé le plus de Fake news ?",
 answers :["Joe Biden", "Donald Trump", "Barack Obama", "George W. Bush"], correct : 1},
 {
 question: "Quelle est l’orientation politique de la chaine télévisé BFMTV ",
