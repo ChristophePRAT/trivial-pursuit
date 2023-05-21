@@ -1,4 +1,5 @@
 import questions from '../../utils/questions.tsx';
+import Link from "next/link"
 
 function NSM(index: number) {
 	switch (index) {
@@ -22,6 +23,7 @@ export default function Questions() {
 		<div className="m-3">
 			<h1 className="text-6xl font-bold py-4">Questions & réponses</h1>
 			<hr />
+			<Link href="/" className="text-md text-blue-700 hover:underline">Accueil</Link>
 			<div className="flex flex-col items-center">
 				<ul className="w-2/3">
 					{questions.map((question, questionIndex) => (

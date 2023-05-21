@@ -101,6 +101,10 @@ export default function Page() {
 				child.classList.remove("bg-red-500");
 				child.classList.remove("opacity-20");
 			});
+			if (gameContext.players[currentPlayerIndex].score >= 10) {
+				alert(`${gameContext.players[currentPlayerIndex].name} a gagné !`);
+				return;
+			}
 
 			const nextPlayerIndex = (currentPlayerIndex + 1) % gameContext.players.length;
 			setGameContext({ ...gameContext, game: { currentPlayerIndex: nextPlayerIndex }, players: gameContext.players.map((player, index) => {
@@ -131,6 +135,7 @@ export default function Page() {
 				<Link href="/players" onClick={() => {
 					setGameContext({ ...gameContext, game: { currentPlayerIndex: 0 }, players: [] })
 					}} className="m-2 text-sky-700">Recommencer</Link>
+				<Link href="/questions" className="m-2 text-sky-700">Voir les questions</Link>
 			</div>
 			<div className="flex basis-full flex-col rounded-md border-2 border-red-500 m-2">
 					<h2 className="font-medium text-4xl m-4 text-center">Question: {currentQuestion.question}</h2>
@@ -182,8 +187,8 @@ export default function Page() {
 									case 3:
 										setGameContext({ ...gameContext, players: gameContext.players.map((player, index) => {
 										if (player.id === gameContext.players[currentPlayerIndex].id) {
-											if (player.score >= 3) {
-												player.score -= 3;
+											if (player.score >= 2) {
+												player.score -= 2;
 											} else {
 												player.score = 0;
 											}

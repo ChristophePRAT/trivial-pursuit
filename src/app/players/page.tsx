@@ -15,7 +15,11 @@ export default function Page() {
 	const alreadySelectedCountries = players.map((player) => { return player.name; });
 
 	const addPlayer = () => {
-		const newPlayers = gameContext.players;
+		const newPlayers = gameContext.players.map((player) => {
+			// reset player score
+			player.score = 0;
+			return player;
+		})
 		// generate new random UUID
 		const id = crypto.randomUUID();
 		newPlayers.push({ name: newPlayerName, id, score: 0 });
