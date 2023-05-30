@@ -187,11 +187,7 @@ export default function Page() {
 									case 3:
 										setGameContext({ ...gameContext, players: gameContext.players.map((player, index) => {
 										if (player.id === gameContext.players[currentPlayerIndex].id) {
-											if (player.score >= 2) {
-												player.score -= 2;
-											} else {
-												player.score = 0;
-											}
+												player.score = player.score - 2;
 										}
 										return player
 									})
