@@ -1,14 +1,14 @@
-# Trivial Pursuit, comrades
+# Trivial Pursuit
 ## TL;DR
-French 🇫🇷 trivial pursuit with a communist theme.
+French 🇫🇷 trivial pursuit
 
 You can play [here](trivial-pursuit-emc.vercel.app)!
 
 ## Motivation
 
-As part of the EMC (moral education class) in my high school, the teacher requested that we build a personalized version of the classic [Trivial Pursuit](https://en.wikipedia.org/wiki/Trivial_Pursuit) game with **democracy questions**. 
+As part of the EMC (moral education class) in my high school, the teacher requested that we build a personalized version of the classic [Trivial Pursuit](https://en.wikipedia.org/wiki/Trivial_Pursuit) game with **democracy questions**.
 
-This is the version which we handed in. It features a communist theme and ridicules the tensions between the USA and the USSR during the cold war.
+This is the version which we handed in. Its intent is to ridicule the tensions between the USA and the USSR during the cold war.
 
 ## How to play
 You can play with up to **30 friends**.
