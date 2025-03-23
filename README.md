@@ -2,7 +2,7 @@
 ## TL;DR
 French 🇫🇷 trivial pursuit
 
-You can play [here](trivial-pursuit-emc.vercel.app)!
+You can play [here](https://trivial-pursuit-emc.vercel.app)!
 
 ## Motivation
 
